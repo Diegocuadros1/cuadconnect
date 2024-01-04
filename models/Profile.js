@@ -62,10 +62,12 @@ const ProfileSchema = new mongoose.Schema({
   projects: [
     {
       title: {
-        type: String
+        type: String,
+        required: true
       },
       description: {
-        type: String
+        type: String,
+        required: true
       },
       from: {
         type: Date
@@ -95,6 +97,9 @@ const ProfileSchema = new mongoose.Schema({
       type: String
     },
     snapchat: {
+      type: String
+    },
+    discord: {
       type: String
     }
   },

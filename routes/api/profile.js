@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const request = require('request');
+const config = require('config');
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 
@@ -58,7 +60,7 @@ router.post('/', [
     }
 
     //pulling most stuff out of req.body (whatever is inputted on the site)(except experience and projects)
-    const { grade, website, location, skills, school, bio, githubusername, youtube, twitter, facebook, linkedin, instagram, snapchat} = req.body;
+    const { grade, website, location, skills, school, bio, githubusername, youtube, twitter, facebook, linkedin, instagram, snapchat, discord} = req.body;
 
     const profileFields = {}
     //setting the user of the profile to the user
@@ -83,6 +85,7 @@ router.post('/', [
     if (linkedin) profileFields.social.linkedin = linkedin;
     if (instagram) profileFields.social.instagram = instagram;
     if (snapchat) profileFields.social.snapchat = snapchat;
+    if (discord) profileFields.social.discord = discord
     
     //inserting the data into the database
     try {
@@ -219,4 +222,126 @@ router.put('/experience', [auth, [
   }
 });
 
+//----Adding new experience to profile----
+// @route        | DELETE api/profile/experience/:exp_id
+// @description  | delete experience from profile
+// @access       | private (doesnt need a token to be able to access)
+router.delete('/experience/:exp_id', auth, async(req, res) => {
+  try {
+    //Getting the log of the user
+    const profile = await Profile.findOne({ user: req.user.id });
+
+    //Get the index to remove the certain experience
+    const removeIndex = profile.experience
+      .map(item => item.id)
+      .indexOf(req.params.exp_id);
+
+    profile.experience.splice(removeIndex, 1);
+
+    await profile.save();
+
+    res.json(profile)
+  } catch (err){
+    res.status(500).send('Server Error');
+  }
+});
+
+//----Adding new projects to profile----
+// @route        | PUT api/profile/projects
+// @description  | Add profile projects
+// @access       | private (doesnt need a token to be able to access)
+router.put('/projects', [auth, [
+  check('title', 'Title is required').not().isEmpty(),
+  check('description', 'Description is required').not().isEmpty(),
+]], async(req, res) => {
+  const errors = validationResult(req);
+
+  if(!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array()});
+  }
+
+  //grabbing the data from the inputs
+  const { title, description, from, to, link } = req.body;
+
+  //adding that data into a new dictionary as new project
+  const newProject = { title, description, from, to, link } 
+
+  try {
+    //finding profile from the user
+    const profile = await Profile.findOne({ user: req.user.id });
+
+    //adding the new experience onto the users profile
+    profile.projects.unshift(newProject);
+
+    //save the new profile
+    await profile.save();
+
+    //output it
+    res.json(profile);
+  //error handling
+  } catch(err){
+    console.error(err.message);
+    res.status(500).send('Server Error')
+  }
+});
+
+//----Adding new Project to profile----
+// @route        | DELETE api/profile/Project/:project_id
+// @description  | delete Project from profile
+// @access       | private (doesnt need a token to be able to access)
+router.delete('/projects/:project_id', auth, async(req, res) => {
+  try {
+    //Getting the log of the user
+    const profile = await Profile.findOne({ user: req.user.id });
+
+    //Get the index to remove the certain experience
+    const removeIndex = profile.projects
+      .map(item => item.id)
+      .indexOf(req.params.project_id);
+
+    profile.projects.splice(removeIndex, 1);
+
+    await profile.save();
+
+    res.json(profile)
+  } catch (err){
+    res.status(500).send('Server Error');
+  }
+})
+
+//----GETTING GITHUB REPOS----
+// @route        | GET api/profile/github/:username
+// @description  | Get user repos from Github
+// @access       | public (doesnt need a token to be able to access)
+router.get('/github/:username', (req, res) => {
+  try {
+    //variable used in the request to get github on the website
+    const options = {
+      uri: `https://api.github.com/users/${
+        req.params.username
+      }/repos?per_page=5&sort=created:asc&client_id=${
+        config.get('githubClientId')
+      }&client_secret=${
+        config.get('githubSecret')
+      }`,
+      method: 'GET',
+      headers: { 'user-agent': 'node.js'}
+    }
+
+    request(options, (error, response, body) => {
+      if(error) console.error(error);
+
+      //if no github is found
+      if(response.statusCode !== 200) {
+        res.status(404).json({msg: 'No Github profile found'});
+      }
+
+      res.json(JSON.parse(body)); //body is regular string so needs json.parse to make it into json
+    });
+
+  } catch(err){
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+})
 module.exports = router;
