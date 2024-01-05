@@ -101,6 +101,9 @@ const ProfileSchema = new mongoose.Schema({
     },
     discord: {
       type: String
+    },
+    phone: {
+      type: String
     }
   },
   date: {

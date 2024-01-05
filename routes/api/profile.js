@@ -60,7 +60,7 @@ router.post('/', [
     }
 
     //pulling most stuff out of req.body (whatever is inputted on the site)(except experience and projects)
-    const { grade, website, location, skills, school, bio, githubusername, youtube, twitter, facebook, linkedin, instagram, snapchat, discord} = req.body;
+    const { grade, website, location, skills, school, bio, githubusername, youtube, twitter, facebook, linkedin, instagram, snapchat, discord, phone} = req.body;
 
     const profileFields = {}
     //setting the user of the profile to the user
@@ -85,7 +85,8 @@ router.post('/', [
     if (linkedin) profileFields.social.linkedin = linkedin;
     if (instagram) profileFields.social.instagram = instagram;
     if (snapchat) profileFields.social.snapchat = snapchat;
-    if (discord) profileFields.social.discord = discord
+    if (discord) profileFields.social.discord = discord;
+    if (phone) profileFields.social.phone = phone;
     
     //inserting the data into the database
     try {
@@ -95,8 +96,8 @@ router.post('/', [
       if (profile) {
         //updating profile
         profile = await Profile.findOneAndUpdate(
-          { user: req.user.id }, //set the profile to that user
-          { $set: profileFields }, //set the fields to the new profile fields
+          { user: req.user.id }, //set the profile to that user | find the one
+          { $set: profileFields }, //set the fields to the new profile fields | what your updating to
           { new: true }) //it is a new input
 
         return res.json(profile);
@@ -222,7 +223,7 @@ router.put('/experience', [auth, [
   }
 });
 
-//----Adding new experience to profile----
+//----deleting experience from profile----
 // @route        | DELETE api/profile/experience/:exp_id
 // @description  | delete experience from profile
 // @access       | private (doesnt need a token to be able to access)
@@ -288,18 +289,18 @@ router.put('/projects', [auth, [
 //----Adding new Project to profile----
 // @route        | DELETE api/profile/Project/:project_id
 // @description  | delete Project from profile
-// @access       | private (doesnt need a token to be able to access)
+// @access       | private (needs a token to be able to access)
 router.delete('/projects/:project_id', auth, async(req, res) => {
   try {
     //Getting the log of the user
     const profile = await Profile.findOne({ user: req.user.id });
 
-    //Get the index to remove the certain experience
+    //Get the index to remove the certain project
     const removeIndex = profile.projects
       .map(item => item.id)
       .indexOf(req.params.project_id);
 
-    profile.projects.splice(removeIndex, 1);
+    profile.projects.splice(removeIndex, 1); //removes that index of the project
 
     await profile.save();
 
@@ -328,6 +329,7 @@ router.get('/github/:username', (req, res) => {
       headers: { 'user-agent': 'node.js'}
     }
 
+    //requesting info from github
     request(options, (error, response, body) => {
       if(error) console.error(error);
 
@@ -335,7 +337,8 @@ router.get('/github/:username', (req, res) => {
       if(response.statusCode !== 200) {
         return res.status(404).json({msg: 'No Github profile found'});
       }
-
+      
+      //ouputting github info
       res.json(JSON.parse(body)); //body is regular string so needs json.parse to make it into json
     });
 
