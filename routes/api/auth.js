@@ -11,7 +11,7 @@ const User = require('../../models/User');
 //---- GET REQUEST ----
 // @route        | GET api/auth
 // @description  | Test route || register user / add profile etc.
-// @access       | Public (to make sure we wont be restricted since we dont need a token)
+// @access       | Private (needs a token)
 
 //NOTE: by adding the auth parameter, it makes the route protected
 router.get('/', auth, async(req, res) => {

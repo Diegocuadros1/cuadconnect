@@ -1,0 +1,43 @@
+REDUX NOTES:
+- Redux is a way to store data into the app rather than simply keeping it on 
+the component side
+
+- In other terms its like my own personal cloud that goes over my whole server
+and is able to keep my information(profile, experiences, about, etc) into 
+one area
+
+reducer: 
+- function that takes in an action. 
+
+- reducer decides how to handle the state and how to pass it down to the 
+components in the UI. It will update any components that uses this State. 
+
+- This prevents us from having to pass things around from component to 
+component
+
+timeline: 
+Calls and actions
+=> dispatch action to a reducer (there are multiple reducers)
+
+=> reducer decides what we are doing with that state
+      (are we updating a profile?)
+      (deleting a post)
+    
+=> sends that state down to the components
+    (profile component)
+        (about)
+        (experiences) 
+        (education)
+
+Reducers We'll have:
+- auth reducer: handles authentication (for every load we will check for a user)
+  - if logged in, components react like navbar will load and dashboard, etc.
+  -if not logged in, it will show like logged in etc.
+
+- profile reducer: handles anything to do with profiles
+
+- post reducer
+
+- alert reducer: setting alert and make alerts show on the screen (error, or success)
+
+
