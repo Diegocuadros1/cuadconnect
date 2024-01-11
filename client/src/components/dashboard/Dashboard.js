@@ -6,6 +6,9 @@ import { Link } from "react-router-dom";
 //leading widget
 import Spinner from "../layout/Spinner";
 
+//importing components
+import DashboardActions from "./DashboardActions";
+
 const Dashboard = ({
   getCurrentProfile, //getting your current profile
   auth: { user }, //getting user authentication
@@ -25,7 +28,9 @@ const Dashboard = ({
         <i className="fas fa-user"> Welcome {user && user.name}</i>
       </p>
       {profile !== null ? (
-        <Fragment>has</Fragment>
+        <Fragment>
+          <DashboardActions />
+        </Fragment>
       ) : (
         <Fragment>
           <p>

@@ -54,7 +54,7 @@ export const createProfile =
       if (!edit) {
         //You can't <Navigate> in an action, must use /__
         console.log("not working");
-        useNavigate("/dashboard");
+        navigate("/dashboard");
       }
     } catch (err) {
       //if there are server side errors:
