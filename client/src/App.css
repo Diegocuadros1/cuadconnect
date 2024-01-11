@@ -291,6 +291,9 @@ button {
 .form .social-input i.fa-discord {
   color: #0c70a5;
 }
+.form .social-input i.fa-phone {
+  color: #0f9a30;
+}
 
 .table th,
 .table td {

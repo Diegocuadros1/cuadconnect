@@ -8,21 +8,24 @@ export default () => (
         style={{
           width: "100%",
           height: "0",
-          paddingBottom: "100%",
+          paddingBottom: "56%",
           position: "relative",
         }}
       >
         <iframe
-          src="https://giphy.com/embed/VseXvvxwowwCc"
+          src="https://giphy.com/embed/PWFLIuyQb5bv96WiTj"
           width="100%"
           height="100%"
           style={{ position: "absolute" }}
+          //frameBorder="0"
           class="giphy-embed"
-          allowFullScreen
+          //allowFullScreen
         ></iframe>
       </div>
       <p>
-        <a href="https://giphy.com/gifs/VseXvvxwowwCc">via GIPHY</a>
+        <a href="https://giphy.com/gifs/2d-splash-dot-PWFLIuyQb5bv96WiTj">
+          via GIPHY
+        </a>
       </p>
     </div>
   </Fragment>
