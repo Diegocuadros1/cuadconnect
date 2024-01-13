@@ -8,6 +8,8 @@ import Spinner from "../layout/Spinner";
 
 //importing components
 import DashboardActions from "./DashboardActions";
+import Experience from "./Experience";
+import Project from "./Project";
 
 const Dashboard = ({
   getCurrentProfile, //getting your current profile
@@ -30,6 +32,8 @@ const Dashboard = ({
       {profile !== null ? (
         <Fragment>
           <DashboardActions />
+          <Experience experience={profile.experience}/>
+          <Project project={profile.project} />
         </Fragment>
       ) : (
         <Fragment>

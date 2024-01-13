@@ -39,7 +39,7 @@ const EditProfile = ({
     //if the item is loading or doesn't exist, then have a blank field
     //else show profile company
     setFormData({
-      school: loading || !profile.company ? "" : profile.company,
+      school: loading || !profile.school ? "" : profile.school,
       website: loading || !profile.website ? "" : profile.website,
       location: loading || !profile.location ? "" : profile.location,
       grade: loading || !profile.grade ? "" : profile.grade,
