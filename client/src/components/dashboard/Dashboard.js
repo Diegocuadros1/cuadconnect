@@ -20,6 +20,8 @@ const Dashboard = ({
     getCurrentProfile();
   }, []);
 
+  console.log(profile.projects);
+
   //if the profile is loading and is null and its still loading, then show spinner
   return loading && profile === null ? (
     <Spinner />
@@ -33,7 +35,7 @@ const Dashboard = ({
         <Fragment>
           <DashboardActions />
           <Experience experience={profile.experience}/>
-          <Project project={profile.project} />
+          <Project project={profile.projects} />
         </Fragment>
       ) : (
         <Fragment>

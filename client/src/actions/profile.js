@@ -53,7 +53,6 @@ export const createProfile =
       //if you this is the first time you are updating your profile
       if (!edit) {
         //You can't <Navigate> in an action, must use /__
-        console.log("not working");
         navigate("/dashboard");
       }
     } catch (err) {

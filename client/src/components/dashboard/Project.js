@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 const Project = ({ project }) => {
-  console.log('project');
   const projects = project.map(pro => (
     <tr key={pro._id}>
       <td>{pro.title}</td>
@@ -31,11 +30,9 @@ const Project = ({ project }) => {
         <thead>
           <tr>
             <th>Title</th>
-            <th className='hide-sm'>Title</th>
             <th className='hide-sm'>description</th>
             <th className='hide-sm'>link</th>
-            <th className='hide-sm'>Years</th>
-
+            <th className='hide-sm'>years</th>
             <th />
           </tr>
         </thead>
