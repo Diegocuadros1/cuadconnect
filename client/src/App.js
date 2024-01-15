@@ -15,6 +15,7 @@ import Dashboard from "./components/dashboard/Dashboard";
 import PrivateRoute from "./components/routing/PrivateRoute";
 import CreateProfile from "./components/profile-form/CreateProfile";
 import EditProfile from "./components/profile-form/EditProfile";
+import AddExperience from "./components/profile-form/AddExperience";
 
 //Importing Redux
 import { Provider } from "react-redux";
@@ -23,6 +24,7 @@ import store from "./store";
 //Actions
 import { loadUser } from "./actions/auth";
 import setAuthToken from "./utils/setAuthToken";
+import { addExperience } from "./actions/profile";
 
 //if user is logged in
 if (localStorage.token) {
@@ -61,6 +63,10 @@ const App = () => {
               <Route
                 path="/edit-profile"
                 element={<PrivateRoute component={EditProfile} />}
+              />
+              <Route
+                path="/add-experience"
+                element={<PrivateRoute component={AddExperience} />}
               />
             </Routes>
           </section>

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { setAlert } from "./alert";
 import { useNavigate } from "react-router-dom";
-import { GET_PROFILE, PROFILE_ERROR } from "./types";
+import { GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE } from "./types";
 
 // Get current users profile
 export const getCurrentProfile = () => async (dispatch) => {
@@ -19,6 +19,95 @@ export const getCurrentProfile = () => async (dispatch) => {
     });
   }
 };
+
+//Add experience
+export const addExperience = (formData, navigate) => async dispatch => {
+  try {
+    //Setting the header of the inputs
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    //sending info to
+    const res = await axios.put("/api/profile/experience", formData, config);
+
+    //getting the users profile
+    dispatch({
+      type: UPDATE_PROFILE,
+      payload: res.data,
+    });
+
+    //if edited is true, then say profile updated, else say profile created
+    dispatch(
+      setAlert("Experience Added", "success")
+    );
+
+    //You can't <Navigate> in an action, must use /__
+    navigate("/dashboard");
+    
+  } catch (err) {
+    //if there are server side errors:
+    const errors = err.response.data.errors;
+
+    //show any error inputed
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+    }
+
+    //dipatching the error
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+}
+
+
+//Add Education
+export const addProject = (formData, navigate) => async dispatch => {
+  try {
+    //Setting the header of the inputs
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    //sending info to
+    const res = await axios.put("/api/profile/project", formData, config);
+
+    //getting the users profile
+    dispatch({
+      type: UPDATE_PROFILE,
+      payload: res.data,
+    });
+
+    //if edited is true, then say profile updated, else say profile created
+    dispatch(
+      setAlert("Project Added", "success")
+    );
+
+    //You can't <Navigate> in an action, must use /__
+    navigate("/dashboard");
+    
+  } catch (err) {
+    //if there are server side errors:
+    const errors = err.response.data.errors;
+
+    //show any error inputed
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+    }
+
+    //dipatching the error
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+}
 
 // Create / update a profile
 export const createProfile =
@@ -71,3 +160,5 @@ export const createProfile =
       });
     }
   };
+
+  

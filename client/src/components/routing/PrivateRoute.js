@@ -14,6 +14,7 @@ const PrivateRoute = ({ component: Component, auth, ...rest }) => {
   //Render the component with the props passed:
   return <Component {...rest} />;
 };
+
 PrivateRoute.propTypes = {
   auth: PropTypes.object.isRequired,
 };
