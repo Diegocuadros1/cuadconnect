@@ -7,6 +7,7 @@ const { check, validationResult } = require('express-validator');
 
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
+const Post = require('../../models/Post')
 
 //----PROFILE GET----
 //@route         | GET api/profile/me
@@ -167,12 +168,13 @@ router.get('/user/:user_id', async (req, res) => {
 // @access       | private (doesnt need a token to be able to access)
 router.delete('/', auth, async (req, res) => {
   try {
-    //TODO - Remove user posts as well
+    //removing persons posts data
+    await Post.deleteMany({ user: req.user.id });
 
-    //remove persons profile data from MongoDB
+    //remove persons profile data
     await Profile.findOneAndDelete({ user: req.user.id });
 
-    //removes persons user data from MongoDB
+    //removes persons user data
     await User.findOneAndDelete({ _id: req.user.id });
 
     res.json({ msg: 'User deleted '});
@@ -286,8 +288,8 @@ router.put('/projects', [auth, [
   }
 });
 
-//----Adding new Project to profile----
-// @route        | DELETE api/profile/Project/:project_id
+//----Deleting Project from profile----
+// @route        | DELETE api/profile/projects/:project_id
 // @description  | delete Project from profile
 // @access       | private (needs a token to be able to access)
 router.delete('/projects/:project_id', auth, async(req, res) => {

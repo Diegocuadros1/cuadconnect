@@ -5,7 +5,9 @@ import { addExperience } from '../../actions/profile';
 import {Link, useNavigate } from 'react-router-dom';
 
 
-const AddExperience = props => {
+const AddExperience = ({addExperience}) => {
+
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({ 
     Company: '',
@@ -34,7 +36,10 @@ const AddExperience = props => {
         positions that you have had in the past
       </p>
       <small>* = required field</small>
-      <form className="form">
+      <form className="form" onSubmit={e => {
+        e.preventDefault();
+        addExperience(formData, navigate);
+      }}>
         <div className="form-group">
           <input type="text" placeholder="* Job Title" name="title" value = {title} onChange={e => onChange(e)} required />
         </div>
@@ -68,7 +73,7 @@ const AddExperience = props => {
           ></textarea>
         </div>
         <input type="submit" className="btn btn-primary my-1" />
-        <a className="btn btn-light my-1" to="/dashboard">Go Back</a>
+        <Link className="btn btn-light my-1" to="/dashboard">Go Back</Link>
       </form>
     </Fragment>
   )

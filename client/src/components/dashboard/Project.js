@@ -2,8 +2,9 @@ import React, { Fragment } from 'react';
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { deleteProject } from '../../actions/profile';
 
-const Project = ({ project }) => {
+const Project = ({ project, deleteProject }) => {
   const projects = project.map(pro => (
     <tr key={pro._id}>
       <td>{pro.title}</td>
@@ -16,7 +17,7 @@ const Project = ({ project }) => {
         }
       </td>
       <td>
-        <button className='btn btn-danger'>
+        <button className='btn btn-danger' onClick={() => deleteProject(pro._id)}>
           Delete
         </button>
       </td>
@@ -45,6 +46,7 @@ const Project = ({ project }) => {
 
 Project.propTypes = {
   project: PropTypes.array.isRequired,
+  deleteProject: PropTypes.func.isRequired,
 }
 
-export default Project
+export default connect(null, { deleteProject }) (Project);
