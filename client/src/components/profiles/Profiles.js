@@ -2,15 +2,39 @@ import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
+import ProfileItem from "./ProfileItem";
 import { getProfiles } from "../../actions/profile";
 
 //as soon as profile loads, we need to call the get_profiles action
 const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
   useEffect(() => {
     getProfiles();
-  }, []);
+  }, [getProfiles]);
 
-  return <Fragment></Fragment>;
+  return (
+    <Fragment>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <Fragment>
+          <h1 className="large text-primary">Members</h1>
+          <p className="lead">
+            <i className="fab fa-connectdevelop"></i> Browse and connect with
+            other CS people
+          </p>
+          <div className="profiles">
+            {profiles.length > 0 ? (
+              profiles.map((profile) => (
+                <ProfileItem key={profile._id} profile={profile} />
+              ))
+            ) : (
+              <h4> No profiles found... </h4>
+            )}
+          </div>
+        </Fragment>
+      )}
+    </Fragment>
+  );
 };
 
 Profiles.propTypes = {

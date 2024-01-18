@@ -56,7 +56,7 @@ const EditProfile = ({
       discord: loading || !profile.social ? "" : profile.social.discord,
       phone: loading || !profile.social ? "" : profile.social.phone,
     });
-  }, [loading]); //when it loads then prop should run
+  }, [loading, getCurrentProfile]); //when it loads then prop should run
 
   //destructuring the formData
   const {

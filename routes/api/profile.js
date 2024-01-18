@@ -156,6 +156,7 @@ router.get("/", async (req, res) => {
 // @access       | public (doesnt need a token to be able to access)
 router.get("/user/:user_id", async (req, res) => {
   try {
+    console.log("serverside is running!!!");
     //find a specific profile and go to their profile page
     const profile = await Profile.findOne({ user: req.params.user_id }) //find the user from the website url
       .populate("user", ["name", "avatar"]);

@@ -18,6 +18,7 @@ import EditProfile from "./components/profile-form/EditProfile";
 import AddExperience from "./components/profile-form/AddExperience";
 import AddProject from "./components/profile-form/AddProject";
 import Profiles from "./components/profiles/Profiles";
+import Profile from "./components/profile/Profile";
 
 //Importing Redux
 import { Provider } from "react-redux";
@@ -54,6 +55,7 @@ const App = () => {
               <Route path="register" element={<Register />} />
               <Route path="login" element={<Login />} />
               <Route path="profiles" element={<Profiles />} />
+              <Route path="profile/:id" element={<Profile />} />
               <Route
                 path="/dashboard"
                 element={<PrivateRoute component={Dashboard} />}

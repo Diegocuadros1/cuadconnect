@@ -18,7 +18,7 @@ export default () => (
           height="100%"
           style={{ position: "absolute" }}
           //frameBorder="0"
-          class="giphy-embed"
+          className="giphy-embed"
           //allowFullScreen
         ></iframe>
       </div>

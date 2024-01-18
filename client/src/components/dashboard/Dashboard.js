@@ -11,7 +11,6 @@ import DashboardActions from "./DashboardActions";
 import Experience from "./Experience";
 import Project from "./Project";
 
-
 const Dashboard = ({
   deleteAccount,
   getCurrentProfile, //getting your current profile
@@ -20,9 +19,7 @@ const Dashboard = ({
 }) => {
   useEffect(() => {
     getCurrentProfile();
-  }, []);
-
-  
+  }, [getCurrentProfile]);
 
   //if the profile is loading and is null and its still loading, then show spinner
   return loading && profile === null ? (
@@ -36,7 +33,7 @@ const Dashboard = ({
       {profile !== null ? (
         <Fragment>
           <DashboardActions />
-          <Experience experience={profile.experience}/>
+          <Experience experience={profile.experience} />
           <Project project={profile.projects} />
 
           <div className="my-2">
@@ -72,4 +69,6 @@ const mapStatetoProps = (state) => ({
   profile: state.profile,
 });
 
-export default connect(mapStatetoProps, { getCurrentProfile, deleteAccount })(Dashboard);
+export default connect(mapStatetoProps, { getCurrentProfile, deleteAccount })(
+  Dashboard
+);
