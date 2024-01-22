@@ -7,14 +7,10 @@ import ProfileTop from "./ProfileTop";
 import ProfileAbout from "./ProfileAbout";
 import ProfileExperience from "./ProfileExperience";
 import ProfileProject from "./ProfileProject";
+import ProfileGithub from "./ProfileGithub";
 import { getProfileById } from "../../actions/profile";
 
-const Profile = ({
-  getProfileById,
-  profile: { profile, loading },
-  auth,
-  match,
-}) => {
+const Profile = ({ getProfileById, profile: { profile, loading }, auth }) => {
   const { id } = useParams();
 
   console.log(`ID IS ${id}`);
@@ -22,8 +18,6 @@ const Profile = ({
   useEffect(() => {
     getProfileById(id); //matches the id in the url
   }, [getProfileById]);
-
-  console.log(profile);
 
   return (
     <Fragment>
@@ -72,6 +66,10 @@ const Profile = ({
                 <h4> No Experience </h4>
               )}
             </div>
+
+            {profile.githubusername && (
+              <ProfileGithub username={profile.githubusername} />
+            )}
           </div>
         </Fragment>
       )}
