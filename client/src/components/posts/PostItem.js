@@ -17,7 +17,7 @@ const PostItem = ({
     </div>
     <div>
       <p className="my-1">{name}</p>
-      <p className="post-date">Posted on 04/16/2019</p>
+      <p className="post-date">Posted on <Moment format="YYYY/MM/DD">{date}</Moment> </p>
       <button type="button" className="btn btn-light">
         <i className="fas fa-thumbs-up"></i>
         <span>4</span>
