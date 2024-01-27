@@ -65,6 +65,7 @@ const PostItem = ({
 );
 
 PostItem.defaultProps = {
+  // Show actions when true will show all posts with an add a new post feature, but when false, will only show one post to comment on.
   showActions: true,
 };
 
