@@ -1,8 +1,8 @@
 //createStore has been improved to configureStore to fix certain bugs however for educational purposes I will continue with createStore instead 
-import { legacy_createStore as createStore, applyMiddleware } from 'redux'; 
+import { legacy_createStore as createStore, applyMiddleware} from 'redux'; 
 
 //from redux devtools
-import { composeWithDevTools } from 'redux-devtools-extension';
+//import { composeWithDevTools } from 'redux-devtools-extension';
 
 //middleware
 import {thunk} from 'redux-thunk';
@@ -20,7 +20,8 @@ const store = createStore(
   rootReducer,
   initialState,
   //middleware
-  composeWithDevTools(applyMiddleware(...middleware))
+  //  composeWithDevTools(applyMiddleware(...middleware))
+  applyMiddleware(...middleware)
 );
 
 export default store;
